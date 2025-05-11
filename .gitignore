@@ -1,0 +1,61 @@
+# Visual Studio generated files
+.vs/
+*.suo
+*.user
+*.sln.docstates
+*.cache
+*.csproj.user
+*.vcxproj.user
+*.vcxproj.filters.user
+*.vcxproj.active.user
+*.vspscc
+*.vssscc
+*.xaml.cs
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+out/
+bld/
+_PublishedWebsites/
+
+# .NET runtime transfer cache
+.NETFramework/
+
+# Package Folders
+packages/
+node_modules/
+
+# NuGet Cache
+.nuget/
+global.json
+*.nupkg
+*.snupkg
+
+# Test Results
+TestResults/
+*.fsproj.user
+*.testsettings
+*.runsettings
+
+# Code Analysis Results
+StyleCopReport.xml
+CodeAnalysisLog.xml
+FxCopCache.xml
+
+# Application specific files
+appsettings.Development.json
+*.log
+*.env # Importante: ignora o arquivo .env que contém segredos
+
+# Docker related
+**/bin/Docker/
+**/obj/Docker/
+
+# JetBrains Rider
+.idea/
+
+# Temporary files
+tmp/
+temp/
+_ReSharper*/
