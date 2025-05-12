@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using SmartStock.Application.Interfaces;
 using SmartStock.Domain.Models;
-using SmartStock.Infrastructure.Data; 
+using SmartStock.Infrastructure.Data;
 
 namespace SmartStock.Infrastructure.Repositories
 {
@@ -36,6 +36,20 @@ namespace SmartStock.Infrastructure.Repositories
                 .ToListAsync();
 
             return (items, totalCount);
+        }
+        public async Task<bool> UpdateAsync(StockItem item)
+        {
+            _dbContext.Entry(item).State = EntityState.Modified;
+            try
+            {
+                await _dbContext.SaveChangesAsync();
+                return true;
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                // Handle concurrency issues if needed
+                return false;
+            }
         }
     }
 }

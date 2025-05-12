@@ -47,5 +47,33 @@ namespace SmartStock.Domain.Models
         {
             MinimumStockLevel = minimumStockLevel;
         }
+
+        public void UpdateDetails(string? name, string? description, string? code, string? unitOfMeasure, Dictionary<string, string>? attributes, int? minimumStockLevel)
+        {
+            if (!string.IsNullOrWhiteSpace(name))
+            {
+                Name = name;
+            }
+            if (!string.IsNullOrWhiteSpace(description))
+            {
+                Description = description;
+            }
+            if (!string.IsNullOrWhiteSpace(code))
+            {
+                Code = code;
+            }
+            if (!string.IsNullOrWhiteSpace(unitOfMeasure))
+            {
+                UnitOfMeasure = unitOfMeasure;
+            }
+            if (attributes != null)
+            {
+                Attributes = attributes;
+            }
+            if (minimumStockLevel.HasValue)
+            {
+                MinimumStockLevel = minimumStockLevel;
+            }
+        }
     }
 }

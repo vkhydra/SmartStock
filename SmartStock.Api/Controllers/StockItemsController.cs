@@ -12,12 +12,14 @@ namespace SmartStock.Api.Controllers
         private readonly IRegisterStockItemUseCase _registerStockItemUseCase;
         private readonly IGetStockItemByIdUseCase _getStockItemByIdUseCase;
         private readonly IGetAllStockItemsUseCase _getAllStockItemsUseCase;
+        private readonly IUpdateStockItemUseCase _updateStockItemUseCase;
 
-        public StockItemsController(IRegisterStockItemUseCase registerStockItemUseCase, IGetStockItemByIdUseCase getStockItemByIdUseCase, IGetAllStockItemsUseCase getAllStockItemsUseCase)
+        public StockItemsController(IRegisterStockItemUseCase registerStockItemUseCase, IGetStockItemByIdUseCase getStockItemByIdUseCase, IGetAllStockItemsUseCase getAllStockItemsUseCase, IUpdateStockItemUseCase updateStockItemUseCase)
         {
             _registerStockItemUseCase = registerStockItemUseCase;
             _getStockItemByIdUseCase = getStockItemByIdUseCase;
             _getAllStockItemsUseCase = getAllStockItemsUseCase;
+            _updateStockItemUseCase = updateStockItemUseCase;
         }
 
         [HttpPost]
@@ -48,6 +50,24 @@ namespace SmartStock.Api.Controllers
         {
             var response = await _getAllStockItemsUseCase.ExecuteAsync(request);
             return Ok(response);
+        }
+
+        [HttpPatch("{id}")]
+        public async Task<ActionResult> Patch(Guid id, [FromBody] UpdateStockItemRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var success = await _updateStockItemUseCase.ExecuteAsync(id, request);
+
+            if (!success)
+            {
+                return NotFound();
+            }
+
+            return NoContent();
         }
     }
 }

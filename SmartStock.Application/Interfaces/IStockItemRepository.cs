@@ -9,5 +9,6 @@ namespace SmartStock.Application.Interfaces
         Task AddAsync(StockItem stockItem);
         Task<StockItem> GetByIdAsync(Guid id);
         Task<(List<StockItem> Items, int TotalCount)> GetAllAsync(int pageNumber, int pageSize);
+        Task<bool> UpdateAsync(StockItem stockItem);
     }
 }
