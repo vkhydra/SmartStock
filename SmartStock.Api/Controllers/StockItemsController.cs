@@ -13,13 +13,15 @@ namespace SmartStock.Api.Controllers
         private readonly IGetStockItemByIdUseCase _getStockItemByIdUseCase;
         private readonly IGetAllStockItemsUseCase _getAllStockItemsUseCase;
         private readonly IUpdateStockItemUseCase _updateStockItemUseCase;
+        private readonly IDeleteStockItemByIdUseCase _deleteStockItemUseCase;
 
-        public StockItemsController(IRegisterStockItemUseCase registerStockItemUseCase, IGetStockItemByIdUseCase getStockItemByIdUseCase, IGetAllStockItemsUseCase getAllStockItemsUseCase, IUpdateStockItemUseCase updateStockItemUseCase)
+        public StockItemsController(IRegisterStockItemUseCase registerStockItemUseCase, IGetStockItemByIdUseCase getStockItemByIdUseCase, IGetAllStockItemsUseCase getAllStockItemsUseCase, IUpdateStockItemUseCase updateStockItemUseCase, IDeleteStockItemByIdUseCase deleteStockItemUseCase)
         {
             _registerStockItemUseCase = registerStockItemUseCase;
             _getStockItemByIdUseCase = getStockItemByIdUseCase;
             _getAllStockItemsUseCase = getAllStockItemsUseCase;
             _updateStockItemUseCase = updateStockItemUseCase;
+            _deleteStockItemUseCase = deleteStockItemUseCase;
         }
 
         [HttpPost]
@@ -61,6 +63,19 @@ namespace SmartStock.Api.Controllers
             }
 
             var success = await _updateStockItemUseCase.ExecuteAsync(id, request);
+
+            if (!success)
+            {
+                return NotFound();
+            }
+
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete(Guid id)
+        {
+            var success = await _deleteStockItemUseCase.ExecuteAsync(id);
 
             if (!success)
             {

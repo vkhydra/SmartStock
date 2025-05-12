@@ -47,9 +47,21 @@ namespace SmartStock.Infrastructure.Repositories
             }
             catch (DbUpdateConcurrencyException)
             {
-                // Handle concurrency issues if needed
                 return false;
             }
+        }
+
+        public async Task<bool> DeleteAsync(Guid id)
+        {
+            var stockItem = await _dbContext.StockItems.FindAsync(id);
+            if (stockItem == null)
+            {
+                return false;
+            }
+
+            _dbContext.StockItems.Remove(stockItem);
+            await _dbContext.SaveChangesAsync();
+            return true;
         }
     }
 }

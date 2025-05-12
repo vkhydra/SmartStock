@@ -27,7 +27,7 @@ builder.Services.AddScoped<IRegisterStockItemUseCase, RegisterStockItemUseCase>(
 builder.Services.AddScoped<IGetStockItemByIdUseCase, GetStockItemByIdUseCase>();
 builder.Services.AddScoped<IGetAllStockItemsUseCase, GetAllStockItemsUseCase>();
 builder.Services.AddScoped<IUpdateStockItemUseCase, UpdateStockItemUseCase>();
-
+builder.Services.AddScoped<IDeleteStockItemByIdUseCase, DeleteStockItemByIdUseCase>();
 builder.Services.AddScoped<IStockItemRepository, StockItemRepository>();
 
 builder.Services.AddDbContext<SmartStockDbContext>(options =>
