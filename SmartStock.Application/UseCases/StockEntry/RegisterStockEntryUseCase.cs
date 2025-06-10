@@ -7,10 +7,12 @@ namespace SmartStock.Application.UseCases
     public class RegisterStockEntryUseCase : IRegisterStockEntryUseCase
     {
         private readonly IStockEntryRepository _stockEntryRepository;
+        private readonly IStockItemRepository _stockItemRepository;
 
-        public RegisterStockEntryUseCase(IStockEntryRepository stockEntryRepository)
+        public RegisterStockEntryUseCase(IStockEntryRepository stockEntryRepository, IStockItemRepository stockItemRepository)
         {
             _stockEntryRepository = stockEntryRepository;
+            _stockItemRepository = stockItemRepository;
         }
 
         public async Task<RegisterStockEntryResponse> ExecuteAsync(RegisterStockEntryRequest request)
@@ -20,6 +22,12 @@ namespace SmartStock.Application.UseCases
                 request.StockItemId,
                 request.Quantity
             );
+
+            var stockItemExists = await _stockItemRepository.StockItemExistsAsync(request.StockItemId);
+            if (!stockItemExists)
+            {
+                throw new ArgumentException("StockItemId não cadastrado.");
+            }
 
             await _stockEntryRepository.AddAsync(newStockEntry);
 

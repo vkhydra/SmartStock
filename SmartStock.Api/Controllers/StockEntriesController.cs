@@ -19,13 +19,19 @@ namespace SmartStock.Api.Controllers
         [HttpPost]
         public async Task<ActionResult<RegisterStockEntryResponse>> Post(RegisterStockEntryRequest request)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState);
+                var response = await _registerStockEntryUseCase.ExecuteAsync(request);
+                return CreatedAtAction(nameof(Post), new { id = response.Id }, response);
             }
-
-            var response = await _registerStockEntryUseCase.ExecuteAsync(request);
-            return CreatedAtAction(nameof(Post), new { id = response.Id }, response);
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An unexpected error occurred: " + ex.Message);
+            }
         }
     }
 }

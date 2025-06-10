@@ -63,5 +63,10 @@ namespace SmartStock.Infrastructure.Repositories
             await _dbContext.SaveChangesAsync();
             return true;
         }
+
+        public async Task<bool> StockItemExistsAsync(Guid id)
+        {
+            return await _dbContext.StockItems.AnyAsync(si => si.Id == id);
+        }
     }
 }
