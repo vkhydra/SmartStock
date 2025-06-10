@@ -10,12 +10,11 @@ namespace SmartStock.Infrastructure.Data
         }
 
         public DbSet<StockItem> StockItems { get; set; }
+        public DbSet<StockEntry> StockEntries { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Aqui você pode configurar o mapeamento das entidades para as tabelas
             modelBuilder.Entity<StockItem>().HasKey(si => si.Id);
-            // Outras configurações de mapeamento podem vir aqui
         }
     }
 }
