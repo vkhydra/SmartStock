@@ -32,6 +32,10 @@ builder.Services.AddScoped<IStockItemRepository, StockItemRepository>();
 
 builder.Services.AddScoped<IRegisterStockEntryUseCase, RegisterStockEntryUseCase>();
 builder.Services.AddScoped<IStockEntryRepository, StockEntryRepository>();
+builder.Services.AddScoped<IGetStockEntryByIdUseCase, GetStockEntryByIdUseCase>();
+builder.Services.AddScoped<IGetAllStockEntryUseCase, GetAllStockEntryUseCase>();
+builder.Services.AddScoped<IUpdateStockEntryUseCase, UpdateStockEntryUseCase>();
+builder.Services.AddScoped<IDeleteStockEntryUseCase, DeleteStockEntryUseCase>();
 
 builder.Services.AddDbContext<SmartStockDbContext>(options =>
     options.UseNpgsql(dbUrl));

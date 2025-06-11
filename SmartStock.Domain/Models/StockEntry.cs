@@ -22,6 +22,18 @@ namespace SmartStock.Domain.Models
         {
             Quantity -= quantity;
         }
+
+        public void UpdateDetails(Guid stockItemId, int quantity)
+        {
+            if (stockItemId != Guid.Empty)
+            {
+                StockItemId = stockItemId;
+            }
+            if (quantity >= 0)
+            {
+                Quantity = quantity;
+            }
+        }
         
     }
 }

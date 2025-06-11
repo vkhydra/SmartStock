@@ -15,7 +15,7 @@ namespace SmartStock.Application.UseCases
             _stockItemRepository = stockItemRepository;
         }
 
-        public async Task<RegisterStockEntryResponse> ExecuteAsync(RegisterStockEntryRequest request)
+        public async Task<Result<RegisterStockEntryResponse, Exception>> ExecuteAsync(RegisterStockEntryRequest request)
         {
             var newStockEntry = new StockEntry
             (
@@ -23,18 +23,19 @@ namespace SmartStock.Application.UseCases
                 request.Quantity
             );
 
-            var stockItemExists = await _stockItemRepository.StockItemExistsAsync(request.StockItemId);
-            if (!stockItemExists)
+            if (!await _stockItemRepository.StockItemExistsAsync(request.StockItemId))
             {
-                throw new ArgumentException("StockItemId não cadastrado.");
+                return Result<RegisterStockEntryResponse, Exception>.Failure(new Exception("Stock item does not exist."));
             }
 
             await _stockEntryRepository.AddAsync(newStockEntry);
-
-            return new RegisterStockEntryResponse
+            
+            var response = new RegisterStockEntryResponse
             {
                 Id = newStockEntry.Id,
             };
+
+            return Result<RegisterStockEntryResponse, Exception>.Success(response);
         }
     }
 }

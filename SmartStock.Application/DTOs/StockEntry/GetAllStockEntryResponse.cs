@@ -1,10 +1,8 @@
-using System.Collections.Generic;
-
 namespace SmartStock.Application.DTOs
 {
-    public class GetAllStockItemsResponse
+    public class GetAllStockEntryResponse
     {
-        public List<GetStockItemResponse> Items { get; set; } = [];
+        public List<GetStockEntryResponse> Items { get; set; } = [];
         public int TotalCount { get; set; }
         public int PageNumber { get; set; }
         public int PageSize { get; set; }

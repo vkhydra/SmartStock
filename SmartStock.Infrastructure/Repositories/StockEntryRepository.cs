@@ -1,4 +1,5 @@
 
+using Microsoft.EntityFrameworkCore;
 using SmartStock.Application.Interfaces;
 using SmartStock.Domain.Models;
 using SmartStock.Infrastructure.Data;
@@ -20,22 +21,44 @@ namespace SmartStock.Infrastructure.Repositories
 
         public Task<bool> DeleteAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var stockEntry = _dbContext.StockEntries.Find(id);
+            if (stockEntry == null)
+            {
+                return Task.FromResult(false);
+            }
+
+            _dbContext.StockEntries.Remove(stockEntry);
+            return _dbContext.SaveChangesAsync().ContinueWith(t => t.Result > 0);
         }
 
-        public Task<(List<StockEntry> Entries, int TotalCount)> GetAllAsync(int pageNumber, int pageSize)
+        public async Task<(List<StockEntry> Entries, int TotalCount)> GetAllAsync(int pageNumber, int pageSize)
         {
-            throw new NotImplementedException();
+            var totalCount = _dbContext.StockEntries.Count();
+
+            var entries = _dbContext.StockEntries
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            return (entries, totalCount);
         }
 
-        public Task<StockEntry> GetByIdAsync(Guid id)
+        public async Task<StockEntry> GetByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            return await _dbContext.StockEntries.FindAsync(id);
         }
 
         public Task<bool> UpdateAsync(StockEntry stockEntry)
         {
-            throw new NotImplementedException();
+            _dbContext.Entry(stockEntry).State = EntityState.Modified;
+            try
+            {
+                return _dbContext.SaveChangesAsync().ContinueWith(t => t.Result > 0);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return Task.FromResult(false);
+            }
         }
     }
 }

@@ -1,8 +1,5 @@
-using System;
-using System.Threading.Tasks;
 using SmartStock.Application.DTOs;
 using SmartStock.Application.Interfaces;
-using SmartStock.Domain.Models;
 
 namespace SmartStock.Application.UseCases
 {
